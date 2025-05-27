@@ -1,4 +1,5 @@
-<?php include 'db.php';
+<?php
+include 'db.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama = $_POST['nama'];
     $harga = $_POST['harga'];
