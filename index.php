@@ -1,12 +1,19 @@
 <?php include 'db.php'; ?>
+<!DOCTYPE html>
+<html>
+<head><title>Daftar Jamu</title><link rel="stylesheet" href="style.css"></head>
+<body>
 <h1>Daftar Jamu</h1>
 <a href="keranjang.php">Lihat Keranjang</a>
 <ul>
 <?php
 $stmt = $db->query("SELECT * FROM jamu");
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    echo "<li>{$row['nama']} - Rp {$row['harga']}
+foreach ($stmt as $row) {
+    echo "<li>{$row['nama']} - Rp{$row['harga']}
         <a href='tambah.php?id={$row['id']}'>Tambah</a></li>";
 }
 ?>
 </ul>
+</body>
+</html>
+

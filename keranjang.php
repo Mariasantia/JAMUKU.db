@@ -1,28 +1,23 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html>
+<head><title>Keranjang</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<h1>Keranjang</h1>
+<a href="index.php">Kembali</a>
+<ul>
 <?php
-session_start();
-include 'db.php';
-
-$keranjang = $_SESSION['keranjang'] ?? [];
-
-if (!$keranjang) {
-    echo "Keranjang kosong. <a href='index.php'>Kembali</a>";
-    exit;
-}
-
-$total = 0;
-echo "<h1>Keranjang Anda</h1><ul>";
-
-foreach ($keranjang as $id) {
-    $stmt = $db->prepare("SELECT * FROM jamu WHERE id = ?");
-    $stmt->execute([$id]);
-    if ($jamu = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "<li>{$jamu['nama']} - Rp {$jamu['harga']}
-            <a href='hapus.php?id={$jamu['id']}'>[Hapus]</a></li>";
-        $total += $jamu['harga'];
+if (isset($_SESSION['keranjang'])) {
+    foreach ($_SESSION['keranjang'] as $id => $qty) {
+        echo "<li>ID: $id - Jumlah: $qty
+            <a href='hapus.php?id=$id'>Hapus</a></li>";
     }
+} else {
+    echo "<p>Keranjang kosong</p>";
 }
-
-echo "</ul>";
-echo "<p>Total: Rp $total</p>";
-echo "<a href='bayar.php'>Bayar</a> | <a href='index.php'>Kembali</a>";
 ?>
+</ul>
+<a href="bayar.php">Bayar</a>
+</body>
+</html>
+
